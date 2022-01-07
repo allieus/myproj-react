@@ -8,7 +8,7 @@ import './App.css';
 
 function App() {
   return (
-    <div>
+    <div className='app'>
       <TopNav />
       <Routes>
         <Route path="/accounts/login/" element={<Login />} />
