@@ -9,6 +9,7 @@ function Components() {
       <h3 className="text-lg border-l-4 border-red-500 pl-1 mb-2">Alerts</h3>
       <Alert type="info" message="info 메세지입니다." />
       <Alert type="success" message="success 메세지입니다." />
+      <Alert type="danger" message="danger 메세지입니다." />
     </div>
   );
 }
