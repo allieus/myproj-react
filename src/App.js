@@ -10,7 +10,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className='app'>
+    <div className="app">
       <TopNav />
       <Routes>
         <Route path="/" element={<Navigate to="/reviews/" />} />
@@ -18,6 +18,7 @@ function App() {
         <Route path="/accounts/profile/" element={<Profile />} />
         <Route path="/reviews/" element={<ReviewList />} />
         <Route path="/reviews/new/" element={<ReviewForm />} />
+        <Route path="/reviews/:reviewId/edit/" element={<ReviewForm />} />
         <Route path="/examples/components/" element={<Components />} />
       </Routes>
     </div>
