@@ -2,7 +2,7 @@
 // handleFieldChange : 각 필드 값이 변화 시에 호출
 // handleSubmit : 인자없는 함수. submit 시에 호출.
 
-function ReviewForm({ fieldValues, handleFieldChange, handleSubmit }) {
+function ReviewForm({ fieldValues, handleFieldChange, handleSubmit, loading }) {
   const handleClickedSubmitButton = () => {
     if (handleSubmit) {
       handleSubmit();
@@ -13,12 +13,14 @@ function ReviewForm({ fieldValues, handleFieldChange, handleSubmit }) {
 
   return (
     <div>
+      {loading && 'Loading ...'}
       <div>
         <select
           name="score"
           value={fieldValues.score}
           onChange={handleFieldChange}
           className="bg-gray-100 border border-gray-400"
+          disabled={loading}
         >
           <option>0</option>
           <option>1</option>
@@ -34,14 +36,18 @@ function ReviewForm({ fieldValues, handleFieldChange, handleSubmit }) {
           value={fieldValues.content}
           onChange={handleFieldChange}
           className="bg-gray-100 border border-gray-400"
+          disabled={loading}
         />
       </div>
       <div>
-        <input
-          type="submit"
+        <button
           className="bg-blue-100 cursor-pointer"
           onClick={() => handleClickedSubmitButton()}
-        />
+          disabled={loading}
+        >
+          {loading && '로딩 아이콘'}
+          저장하기
+        </button>
       </div>
     </div>
   );
