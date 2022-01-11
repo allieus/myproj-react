@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 function useFieldValues(initialValues) {
   const [fieldValues, setFieldValues] = useState(initialValues);
@@ -16,7 +16,12 @@ function useFieldValues(initialValues) {
 
   const clearFieldValues = useCallback(() => {
     setFieldValues(initialValues);
-  }, []);
+  }, [initialValues]);
+
+  // initialValues 속성값이 변경되면 fieldValues를 초기화합니다.
+  useEffect(() => {
+    setFieldValues(initialValues);
+  }, [initialValues]);
 
   return {
     fieldValues,
