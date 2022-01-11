@@ -4,6 +4,8 @@ import Profile from 'pages/accounts/Profile';
 import PageBlog from 'pages/blog/PageBlog';
 import Clock from 'pages/examples/Clock';
 import Components from 'pages/examples/Components';
+import ContextApiSample from 'pages/examples/ContextApiSample';
+import ContextApiSample2 from 'pages/examples/ContextApiSample2';
 import CssInJs from 'pages/examples/CssInJs';
 import CssModule from 'pages/examples/CssModule';
 import useWindowWidth from 'pages/examples/useWindowWidth';
@@ -30,6 +32,11 @@ function App() {
           <Route path="/examples/components/" element={<Components />} />
           <Route path="/examples/css-module/" element={<CssModule />} />
           <Route path="/examples/css-in-js/" element={<CssInJs />} />
+          <Route path="/examples/context-api/" element={<ContextApiSample />} />
+          <Route
+            path="/examples/context-api-2/"
+            element={<ContextApiSample2 />}
+          />
         </Routes>
         <hr />
         윈도우 가로크기 : {windowWidth}px
