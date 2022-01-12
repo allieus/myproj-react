@@ -3,6 +3,8 @@ import TopNav from 'components/TopNav';
 import Login from 'pages/accounts/Login';
 import Profile from 'pages/accounts/Profile';
 import PageBlogIndex from 'pages/blog/PageBlogIndex';
+import PageNewsArticleDetail from 'pages/news/PageNewsArticleDetail';
+import PageNewsIndex from 'pages/news/PageNewsIndex';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import PageBlogDetail from './pages/blog/PageBlogDetail';
 import PageBlogForm from './pages/blog/PageBlogForm';
@@ -20,6 +22,8 @@ function App() {
         <Route path="/blog/new/" element={<PageBlogForm />} />
         <Route path="/blog/:postId/" element={<PageBlogDetail />} />
         <Route path="/blog/:postId/edit/" element={<PageBlogForm />} />
+        <Route path="/news/" element={<PageNewsIndex />} />
+        <Route path="/news/:articleId/" element={<PageNewsArticleDetail />} />
         {/* <Route path="/reviews/" element={<ReviewList />} />
         <Route path="/reviews/new/" element={<ReviewForm />} />
         <Route path="/reviews/:reviewId/edit/" element={<ReviewForm />} />
