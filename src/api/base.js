@@ -7,9 +7,32 @@ const axiosInstance = Axios.create({
   baseURL: API_HOST,
 });
 
-const useApiAxios = makeUseAxios({
+const useAxios = makeUseAxios({
   axios: axiosInstance,
 });
+
+function useApiAxios(config, options) {
+  const [{ data, loading, error, response }, execute, manualCancel] = useAxios(
+    config,
+    options,
+  );
+
+  const [errorMessages, setErrorMessages] = useState({});
+
+  useEffect(() => {
+    if (error && error.response.status === 400) {
+      setErrorMessages(error.response.data);
+    } else {
+      setErrorMessages({});
+    }
+  }, [error]);
+
+  return [
+    { data, loading, error, response, errorMessages },
+    execute,
+    manualCancel,
+  ];
+}
 
 function useRequest(resourceUrl, initialState, manual = false) {
   const [data, setData] = useState(initialState);
