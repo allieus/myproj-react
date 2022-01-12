@@ -1,9 +1,14 @@
 import Axios from 'axios';
+import { makeUseAxios } from 'axios-hooks';
 import { API_HOST } from 'Constants';
 import { useCallback, useEffect, useState } from 'react';
 
 const axiosInstance = Axios.create({
   baseURL: API_HOST,
+});
+
+const useApiAxios = makeUseAxios({
+  axios: axiosInstance,
 });
 
 function useRequest(resourceUrl, initialState, manual = false) {
@@ -50,4 +55,4 @@ function useRequest(resourceUrl, initialState, manual = false) {
   return { data, loading, error, errorMessages, request };
 }
 
-export { axiosInstance, useRequest };
+export { axiosInstance, useApiAxios, useRequest };
