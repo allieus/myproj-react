@@ -1,24 +1,24 @@
 import { useRequest } from './base';
 
-function usePostList(initialAutoRequest = true) {
+function usePostList(manual = false) {
   const {
     data: postList,
     loading,
     error,
     errorMessages,
     request,
-  } = useRequest('/blog/api/posts/', [], initialAutoRequest);
+  } = useRequest('/blog/api/posts/', [], manual);
   return { postList, loading, error, errorMessages, request };
 }
 
-function usePost(id, initialAutoRequest = true) {
+function usePost(id, manual = false) {
   const {
     data: post,
     loading,
     error,
     errorMessages,
     request,
-  } = useRequest(`/blog/api/posts/${id}/`, null, initialAutoRequest);
+  } = useRequest(`/blog/api/posts/${id}/`, null, manual);
   return { post, loading, error, errorMessages, request };
 }
 

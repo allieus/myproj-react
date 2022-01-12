@@ -6,7 +6,7 @@ const axiosInstance = Axios.create({
   baseURL: API_HOST,
 });
 
-function useRequest(resourceUrl, initialState, initialAutoRequest = true) {
+function useRequest(resourceUrl, initialState, manual = false) {
   const [data, setData] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -44,8 +44,8 @@ function useRequest(resourceUrl, initialState, initialAutoRequest = true) {
   );
 
   useEffect(() => {
-    if (initialAutoRequest) request();
-  }, [initialAutoRequest]); // eslint ignore
+    if (!manual) request();
+  }, [manual]);
 
   return { data, loading, error, errorMessages, request };
 }
