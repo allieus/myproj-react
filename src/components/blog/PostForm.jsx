@@ -8,12 +8,13 @@ const INITIAL_FIELD_VALUES = {
 };
 
 function PostForm({ postId, handleSuccess }) {
-  const { request: postRequest } = usePostList(false);
+  const { request: postRequest, errorMessages: postErrorMessages } =
+    usePostList(false);
 
   // 생성(postId==undefined)에서는 post는 null
   const {
     post,
-    errorMessages,
+    errorMessages: putErrorMessages,
     request: putRequest,
   } = usePost(postId, !!postId);
 
@@ -54,7 +55,8 @@ function PostForm({ postId, handleSuccess }) {
             value={fieldValues.title}
             onChange={handleFieldChange}
           />
-          <ErrorMessages errorMessages={errorMessages.title} />
+          <ErrorMessages errorMessages={putErrorMessages.title} />
+          <ErrorMessages errorMessages={postErrorMessages.title} />
         </div>
 
         <div className="mb-4">
@@ -64,7 +66,8 @@ function PostForm({ postId, handleSuccess }) {
             onChange={handleFieldChange}
             className="shadow appearance-none border rounded w-full h-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
-          <ErrorMessages errorMessages={errorMessages.content} />
+          <ErrorMessages errorMessages={putErrorMessages.content} />
+          <ErrorMessages errorMessages={postErrorMessages.content} />
         </div>
 
         <div className="flex items-center justify-between">
