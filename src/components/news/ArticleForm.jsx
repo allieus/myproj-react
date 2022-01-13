@@ -1,9 +1,8 @@
-import Button from 'components/Button';
 import DebugStates from 'components/DebugStates';
 import FieldErrorMessages from 'components/forms/FieldErrorMessages';
 import H2 from 'components/H2';
 import Input from 'components/forms/Input';
-import Loading from 'components/icons/Loading';
+import SubmitButton from 'components/forms/SubmitButton';
 import Textarea from 'components/forms/Textarea';
 import useFieldValues from 'hooks/useFieldValues';
 import useFormRequest from 'hooks/useFormRequest';
@@ -46,6 +45,10 @@ function ArticleForm({ articleId, handleDidSave }) {
     <div>
       <H2>Article Form</H2>
 
+      {saveError && saveError.response?.status !== 400 && (
+        <div className="text-red-400">{`저장 중 에러가 발생했습니다. (${saveError.response?.status} ${saveError.response?.statusText})`}</div>
+      )}
+
       <FieldErrorMessages errorMessages={saveErrorMessages.non_field_errors} />
 
       <form onSubmit={handleSubmit}>
@@ -82,13 +85,7 @@ function ArticleForm({ articleId, handleDidSave }) {
         </div>
 
         <div className="my-3">
-          <Button disabled={saveLoading}>
-            {saveLoading && <Loading className="w-10 h-10" />}
-            저장하기
-          </Button>
-          {saveError &&
-            saveError.response?.status !== 400 &&
-            `저장 중 에러가 발생했습니다. (${saveError.response?.status} ${saveError.response?.statusText})`}
+          <SubmitButton saveLoading={saveLoading} />
         </div>
       </form>
 

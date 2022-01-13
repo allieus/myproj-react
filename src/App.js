@@ -1,14 +1,15 @@
+import { Navigate, Route, Routes } from 'react-router-dom';
+
 import Footer from 'components/Footer';
-import TopNav from 'components/TopNav';
-import Login from 'pages/accounts/Login';
-import Profile from 'pages/accounts/Profile';
+import LoginPage from 'pages/accounts/PageLogin';
+import PageBlogDetail from './pages/blog/PageBlogDetail';
+import PageBlogForm from './pages/blog/PageBlogForm';
 import PageBlogIndex from 'pages/blog/PageBlogIndex';
 import PageNewsArticleDetail from 'pages/news/PageNewsArticleDetail';
 import PageNewsArticleForm from 'pages/news/PageNewsArticleForm';
 import PageNewsIndex from 'pages/news/PageNewsIndex';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import PageBlogDetail from './pages/blog/PageBlogDetail';
-import PageBlogForm from './pages/blog/PageBlogForm';
+import ProfilePage from 'pages/accounts/PageProfile';
+import TopNav from 'components/TopNav';
 
 function App() {
   return (
@@ -17,8 +18,8 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Navigate to="/blog/" />} />
-        <Route path="/accounts/login/" element={<Login />} />
-        <Route path="/accounts/profile/" element={<Profile />} />
+        <Route path="/accounts/login/" element={<LoginPage />} />
+        <Route path="/accounts/profile/" element={<ProfilePage />} />
         <Route path="/blog/" element={<PageBlogIndex />} />
         <Route path="/blog/new/" element={<PageBlogForm />} />
         <Route path="/blog/:postId/" element={<PageBlogDetail />} />
