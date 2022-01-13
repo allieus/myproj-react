@@ -1,10 +1,11 @@
+import { useEffect } from 'react';
+import produce from 'immer';
 import Button from 'components/Button';
 import DebugStates from 'components/DebugStates';
 import H2 from 'components/H2';
 import LoadingIndicator from 'components/LoadingIndicator';
 import useFieldValues from 'hooks/useFieldValues';
 import { useApiAxios } from 'api/base';
-import { useEffect } from 'react/cjs/react.development';
 
 const INIT_FIELD_VALUES = { title: '', content: '' };
 
@@ -45,10 +46,38 @@ function ArticleForm({ articleId, handleDidSave }) {
     // 서버로 photo=null이 전달이 되면, 아래 오류가 발생
     //   - The submitted data was not a file. Check the encoding type on the form.
     //   - 대응 : fieldValues에서 photo만 제거해주거나, photo=null이라면 빈 문자열로 변경
-    setFieldValues((prevFieldValues) => ({
-      ...prevFieldValues,
-      photo: '',
-    }));
+    // setFieldValues((prevFieldValues) => ({
+    //   ...prevFieldValues,
+    //   photo: '',
+    // }));
+
+    // 인자 1개를 받는 함수를 리턴 : 원본
+    // 함수(원본) => 변경된 사본을 리턴;
+    setFieldValues(
+      produce((draft) => {
+        draft.photo = '';
+      }),
+    );
+
+    // immer 2단계
+    // setFieldValues((prevFieldValues) => {
+    //   return produce(prevFieldValues, (draft) => {
+    //     draft.photo = '';
+    //   });
+
+    // immer 3단계
+    // setFieldValues((prevFieldValues) =>
+    //   produce(prevFieldValues, (draft) => {
+    //     draft.photo = '';
+    //   }),
+    // );
+
+    // immer 4단계
+    setFieldValues(
+      produce((draft) => {
+        draft.photo = '';
+      }),
+    );
   }, [article]);
 
   const handleSubmit = (e) => {
