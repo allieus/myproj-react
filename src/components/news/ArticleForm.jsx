@@ -1,54 +1,31 @@
-import { useEffect } from 'react';
-import produce from 'immer';
 import Button from 'components/Button';
 import DebugStates from 'components/DebugStates';
+import FieldErrorMessages from 'components/forms/FieldErrorMessages';
 import H2 from 'components/H2';
-import LoadingIndicator from 'components/LoadingIndicator';
+import Input from 'components/forms/Input';
+import Loading from 'components/icons/Loading';
+import Textarea from 'components/forms/Textarea';
 import useFieldValues from 'hooks/useFieldValues';
-import { useApiAxios } from 'api/base';
+import useFormRequest from 'hooks/useFormRequest';
 
 const INIT_FIELD_VALUES = { title: '', content: '' };
 
-// !articleId : 생성
-// articleId  : 수정
-
 function ArticleForm({ articleId, handleDidSave }) {
-  // articleId 값이 있을 때에만 조회
-  // articleId => manual=false
-  // !articleId => manual=true
-  const [{ data: article, loading: getLoading, error: getError }] = useApiAxios(
-    `/news/api/articles/${articleId}/`,
-    { manual: !articleId },
-  );
-
-  const [
-    {
-      loading: saveLoading,
-      error: saveError,
-      errorMessages: saveErrorMessages,
-    },
+  const {
+    object: article,
+    queryError,
+    saveLoading,
+    saveError,
+    saveErrorMessages,
     saveRequest,
-  ] = useApiAxios(
-    {
-      url: !articleId
-        ? '/news/api/articles/'
-        : `/news/api/articles/${articleId}/`,
-      method: !articleId ? 'POST' : 'PUT',
-    },
-    { manual: true },
+  } = useFormRequest('/news/api/articles/', articleId);
+
+  const { fieldValues, handleFieldChange, formData } = useFieldValues(
+    article || INIT_FIELD_VALUES,
   );
 
-  const { fieldValues, handleFieldChange, setFieldValues, formData } =
-    useFieldValues(article || INIT_FIELD_VALUES);
-
-  // article 조회 시에 photo 속성을 빈 문자열로 변경
-  useEffect(() => {
-    setFieldValues(
-      produce((draft) => {
-        draft.photo = '';
-      }),
-    );
-  }, [article]);
+  // Input 컴포넌트에서 input[type=file]의 null에 대한 처리를 하기에
+  // 관련 useEffect 로직은 제거합니다.
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -61,67 +38,62 @@ function ArticleForm({ articleId, handleDidSave }) {
     });
   };
 
+  if (queryError) {
+    return `로딩 중 에러가 발생했습니다. (${queryError.response?.status} ${queryError.response?.statusText})`;
+  }
+
   return (
     <div>
       <H2>Article Form</H2>
 
-      {saveLoading && <LoadingIndicator>저장 중 ...</LoadingIndicator>}
-      {saveError &&
-        `저장 중 에러가 발생했습니다. (${saveError.response.status} ${saveError.response.statusText})`}
+      <FieldErrorMessages errorMessages={saveErrorMessages.non_field_errors} />
 
       <form onSubmit={handleSubmit}>
         <div className="my-3">
-          <input
+          <Input
+            type="text"
             name="title"
             value={fieldValues.title}
+            placeholder="기사 제목을 입력해주세요."
             onChange={handleFieldChange}
-            type="text"
-            className="p-1 bg-gray-100 w-full outline-none focus:border focus:border-gray-400 focus:border-dashed"
+            errorMessages={saveErrorMessages.title}
           />
-          {saveErrorMessages.title?.map((message, index) => (
-            <p key={index} className="text-xs text-red-400">
-              {message}
-            </p>
-          ))}
         </div>
 
         <div className="my-3">
-          <textarea
+          <Textarea
             name="content"
             value={fieldValues.content}
+            placeholder="기사 내용을 입력해주세요."
             onChange={handleFieldChange}
-            className="p-1 bg-gray-100 w-full h-80 outline-none focus:border focus:border-gray-400 focus:border-dashed"
+            errorMessages={saveErrorMessages.content}
           />
-          {saveErrorMessages.content?.map((message, index) => (
-            <p key={index} className="text-xs text-red-400">
-              {message}
-            </p>
-          ))}
         </div>
 
         <div className="my-3">
-          <input
+          <Input
             type="file"
             accept=".png, .jpg, .jpeg"
             name="photo"
-            // value=""
+            value={fieldValues.photo}
             onChange={handleFieldChange}
+            errorMessages={saveErrorMessages.photo}
           />
-          {saveErrorMessages.photo?.map((message, index) => (
-            <p key={index} className="text-xs text-red-400">
-              {message}
-            </p>
-          ))}
         </div>
 
         <div className="my-3">
-          <Button>저장하기</Button>
+          <Button disabled={saveLoading}>
+            {saveLoading && <Loading className="w-10 h-10" />}
+            저장하기
+          </Button>
+          {saveError &&
+            saveError.response?.status !== 400 &&
+            `저장 중 에러가 발생했습니다. (${saveError.response?.status} ${saveError.response?.statusText})`}
         </div>
       </form>
+
       <DebugStates
         article={article}
-        getLoading={getLoading}
-        getError={getError}
         saveErrorMessages={saveErrorMessages}
         fieldValues={fieldValues}
       />
