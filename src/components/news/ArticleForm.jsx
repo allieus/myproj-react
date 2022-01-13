@@ -43,8 +43,20 @@ function ArticleForm({ articleId, handleDidSave }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // fieldValues : 객체 (except 파일)
+    // 파일을 업로드할려면, FormData 인스턴스를 써야합니다.
+    const formData = new FormData();
+    Object.entries(fieldValues).forEach(([name, value]) => {
+      if (Array.isArray(value)) {
+        const fileList = value;
+        fileList.forEach((file) => formData.append(name, file));
+      } else {
+        formData.append(name, value);
+      }
+    });
+
     saveRequest({
-      data: fieldValues,
+      data: formData,
     }).then((response) => {
       const savedPost = response.data;
       if (handleDidSave) handleDidSave(savedPost);
@@ -83,6 +95,21 @@ function ArticleForm({ articleId, handleDidSave }) {
             className="p-1 bg-gray-100 w-full h-80 outline-none focus:border focus:border-gray-400 focus:border-dashed"
           />
           {saveErrorMessages.content?.map((message, index) => (
+            <p key={index} className="text-xs text-red-400">
+              {message}
+            </p>
+          ))}
+        </div>
+
+        <div className="my-3">
+          <input
+            type="file"
+            accept=".png, .jpg, .jpeg"
+            name="photo"
+            // value=""
+            onChange={handleFieldChange}
+          />
+          {saveErrorMessages.photo?.map((message, index) => (
             <p key={index} className="text-xs text-red-400">
               {message}
             </p>
