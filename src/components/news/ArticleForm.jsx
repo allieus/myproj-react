@@ -4,6 +4,7 @@ import H2 from 'components/H2';
 import LoadingIndicator from 'components/LoadingIndicator';
 import useFieldValues from 'hooks/useFieldValues';
 import { useApiAxios } from 'api/base';
+import { useEffect } from 'react/cjs/react.development';
 
 const INIT_FIELD_VALUES = { title: '', content: '' };
 
@@ -39,6 +40,11 @@ function ArticleForm({ articleId, handleDidSave }) {
   const { fieldValues, handleFieldChange } = useFieldValues(
     article || INIT_FIELD_VALUES,
   );
+
+  // photo=null 이 서버로
+  // useEffect(() => {
+  //   handleFieldChange({ target: { name: 'photo', value: '' } });
+  // }, [article]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

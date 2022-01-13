@@ -13,12 +13,18 @@ function ArticleList() {
   }, []);
 
   return (
-    <div>
-      <h3>뉴스 기사 목록을 보여줄 것입니다.</h3>
+    <div className="my-5">
       {loading && '로딩 중 ...'}
       {error && '로딩 중 에러가 발생했습니다.'}
-      {articleList &&
-        articleList.map((article) => <ArticleSummary article={article} />)}
+      {articleList && (
+        <div className="flex flex-wrap">
+          {articleList.map((article) => (
+            <div key={article.id} className="w-full md:w-1/2 xl:w-1/3 px-4">
+              <ArticleSummary article={article} />
+            </div>
+          ))}
+        </div>
+      )}
       <DebugStates articleList={articleList} loading={loading} error={error} />
     </div>
   );
