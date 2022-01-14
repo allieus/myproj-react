@@ -1,6 +1,14 @@
 import { NavLink } from 'react-router-dom';
+import { useAuth } from 'contexts/AuthContext';
 
 function TopNav() {
+  const {
+    authStates: {
+      isLogged,
+      user: { username },
+    },
+  } = useAuth();
+
   return (
     <div className="my-3">
       <div className="flex place-content-between gap-4">
@@ -10,8 +18,18 @@ function TopNav() {
         <div className="flex">
           <MyLink to="/blog/">블로그</MyLink>
           <MyLink to="/news/">뉴스룸</MyLink>
-          <MyLink to="/accounts/login/">로그인</MyLink>
-          <MyLink to="/accounts/profile/">프로필</MyLink>
+          {isLogged && (
+            <>
+              <MyLink to="/accounts/login/">{username} 프로필</MyLink>
+              <MyLink to="/accounts/profile/">로그아웃</MyLink>
+            </>
+          )}
+          {!isLogged && (
+            <>
+              <MyLink to="/accounts/login/">로그인</MyLink>
+              <MyLink to="/accounts/profile/">회원가입</MyLink>
+            </>
+          )}
         </div>
       </div>
     </div>
