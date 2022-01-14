@@ -3,10 +3,13 @@ import SubmitButton from 'components/forms/SubmitButton';
 import { useAuth } from 'contexts/AuthContext';
 import useFieldValues from 'hooks/useFieldValues';
 import useFormRequest from 'hooks/useFormRequest';
+import { useNavigate } from 'react-router-dom';
 
 const INITIAL_FIELD_VALUES = { username: '', password: '' };
 
 function LoginForm() {
+  const navigate = useNavigate();
+
   // FIXME: selector를 사용하면 재렌더링에 좋을까?
   // https://github.com/dai-shi/use-context-selector
   const { loggedIn, loggedOut, authStates } = useAuth();
@@ -24,7 +27,9 @@ function LoginForm() {
     saveRequest({
       data: formData,
     }).then((response) => {
-      loggedIn(response.data);
+      loggedIn(response.data).then(() => {
+        navigate('/accounts/profile/');
+      });
     });
   };
 

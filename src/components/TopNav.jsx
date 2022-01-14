@@ -1,13 +1,23 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+
 import { useAuth } from 'contexts/AuthContext';
 
 function TopNav() {
+  const navigate = useNavigate();
+
   const {
+    loggedOut,
     authStates: {
       isLogged,
       user: { username },
     },
   } = useAuth();
+
+  const handleLogout = () => {
+    loggedOut().then(() => {
+      navigate('/accounts/login/');
+    });
+  };
 
   return (
     <div className="my-3">
@@ -20,8 +30,10 @@ function TopNav() {
           <MyLink to="/news/">뉴스룸</MyLink>
           {isLogged && (
             <>
-              <MyLink to="/accounts/login/">{username} 프로필</MyLink>
-              <MyLink to="/accounts/profile/">로그아웃</MyLink>
+              <MyLink to="/accounts/profile/">{username} 프로필</MyLink>
+              <MyLink to="" onClick={handleLogout}>
+                로그아웃
+              </MyLink>
             </>
           )}
           {!isLogged && (
@@ -36,13 +48,14 @@ function TopNav() {
   );
 }
 
-function MyLink({ to, children }) {
+function MyLink({ to, children, onClick }) {
   return (
     <NavLink
       to={to}
       className={({ isActive }) =>
         baseClassName + ' ' + (isActive ? 'border-b-4 border-red-400' : '')
       }
+      onClick={onClick}
     >
       {children}
     </NavLink>

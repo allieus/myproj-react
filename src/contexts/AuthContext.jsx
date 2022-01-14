@@ -23,17 +23,17 @@ function AuthProvider({ children }) {
 
   const loggedIn = useCallback(
     ({ access, refresh, username, first_name, last_name }) => {
-      saveAuthStates({
+      return saveAuthStates({
         isLogged: true,
         user: { access, refresh, username, first_name, last_name },
       });
     },
-    [],
+    [saveAuthStates],
   );
 
   const loggedOut = useCallback(() => {
-    initAuthStates();
-  }, []);
+    return initAuthStates();
+  }, [initAuthStates]);
 
   return (
     <AuthContext.Provider value={{ authStates, loggedIn, loggedOut }}>
