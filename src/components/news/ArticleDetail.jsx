@@ -1,18 +1,19 @@
-import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useApiAxios } from 'api/base';
+
 import LoadingIndicator from 'components/LoadingIndicator';
+import { useAuthenticatedApiAxios } from 'api/base';
+import { useEffect } from 'react';
 
 function ArticleDetail({ articleId }) {
   const navigate = useNavigate();
 
-  const [{ data: article, loading, error }, refetch] = useApiAxios(
+  const [{ data: article, loading, error }, refetch] = useAuthenticatedApiAxios(
     `/news/api/articles/${articleId}/`,
     { manual: true },
   );
 
   const [{ loading: deleteLoading, error: deleteError }, deleteArticle] =
-    useApiAxios(
+    useAuthenticatedApiAxios(
       {
         url: `/news/api/articles/${articleId}/`,
         method: 'DELETE',

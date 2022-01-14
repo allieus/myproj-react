@@ -1,13 +1,11 @@
-import { useApiAxios } from 'api/base';
-import DebugStates from 'components/DebugStates';
-import { useEffect } from 'react/cjs/react.development';
 import ArticleSummary from './ArticleSummary';
+import DebugStates from 'components/DebugStates';
+import { useAuthenticatedApiAxios } from 'api/base';
+import { useEffect } from 'react';
 
 function ArticleList() {
-  const [{ data: articleList, loading, error }, refetch] = useApiAxios(
-    '/news/api/articles/',
-    { manual: true },
-  );
+  const [{ data: articleList, loading, error }, refetch] =
+    useAuthenticatedApiAxios('/news/api/articles/', { manual: true });
 
   useEffect(() => {
     refetch();
