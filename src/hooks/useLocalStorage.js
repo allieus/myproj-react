@@ -1,6 +1,4 @@
-import { useCallback, useState } from 'react';
-
-import { useEffect } from 'react/cjs/react.development';
+import { useCallback, useEffect, useState } from 'react';
 
 function readFromLocalStorage(key) {
   return window.localStorage.getItem(key);
@@ -23,12 +21,15 @@ function useLocalStorage(key, defaultValue) {
   const set = useCallback(
     (data) => {
       writeToLocalStorage(key, data);
-      setData(data);
+      // useState의 setter는 Promise가 아니기에 Promise.then 객체를 반환토록 합니다.
+      // Promise를 통해 then 체이닝을 할 수 있습니다.
+      return Promise.resolve(setData(data));
     },
     [key],
   );
+
   const init = useCallback(() => {
-    set(defaultValue);
+    return set(defaultValue);
   }, [key]);
 
   useEffect(() => {
