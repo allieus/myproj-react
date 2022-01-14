@@ -20,8 +20,10 @@ function Input({ type, name, value, placeholder, onChange, errorMessages }) {
       if (
         value === null ||
         (typeof value === 'string' && /^https?:\/\//.test(value))
-      )
-        onChange({ target: { name, value: '' } });
+      ) {
+        // FIXME: WHY??? - 그냥 onChange를 호출하여 상탯값을 변경 요청하면 상탯값이 변경되지 않습니다. :-(
+        setTimeout(() => onChange({ target: { name, value: '' } }), 0);
+      }
     }
   }, [value]); // eslint-disable-line
 
