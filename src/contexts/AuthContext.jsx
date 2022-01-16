@@ -1,5 +1,7 @@
 import { createContext, useCallback, useContext } from 'react';
+import { useEffect, useState } from 'react/cjs/react.development';
 
+import jwtDecode from 'jwt-decode';
 import useLocalStorage from 'hooks/useLocalStorage';
 
 // 주의: 전역 컨텍스트에는 최소한의 값만 담습니다. (ex: 로그인)
@@ -22,7 +24,13 @@ function AuthProvider({ children }) {
   } = useLocalStorage('auth', INITIAL_STATES);
 
   const loggedIn = useCallback(
-    ({ access, refresh, username, first_name, last_name }) => {
+    ({ access, refresh }) => {
+      // DRF Token 응답의 Payload
+      //  + exp, iat, jti, token_type, user_id
+      //  + username, first_name, last_name
+      const { exp, username, first_name, last_name } = jwtDecode(access);
+      console.log('expire timestamp :', exp);
+
       return saveAuthStates({
         isLogged: true,
         user: { access, refresh, username, first_name, last_name },

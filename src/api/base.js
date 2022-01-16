@@ -31,7 +31,7 @@ function useAuthenticatedApiAxios(defaultConfig, options) {
 
   const execute = useCallback(
     (config) => {
-      if (!isLogged) {
+      if (!options?.noAuthenticate && !isLogged) {
         console.warn(
           'useAuthenticatedApiAxios를 통한 API 요청에는 인증토큰이 필요합니다.',
         );
@@ -43,14 +43,12 @@ function useAuthenticatedApiAxios(defaultConfig, options) {
           ...(typeof config === 'string' ? { url: config } : config),
         };
 
-        newConfig['headers'] ||= {};
-        newConfig['headers']['Authorization'] = isLogged
-          ? `Bearer ${access}`
-          : '';
-
-        console.group('newConfig');
-        console.table(newConfig);
-        console.groupEnd();
+        if (!options?.noAuthenticate) {
+          newConfig['headers'] ||= {};
+          newConfig['headers']['Authorization'] = isLogged
+            ? `Bearer ${access}`
+            : '';
+        }
 
         setLoading(true);
         setError(null);
@@ -70,7 +68,7 @@ function useAuthenticatedApiAxios(defaultConfig, options) {
           });
       }
     },
-    [defaultConfig, isLogged, access],
+    [defaultConfig, isLogged, access, options],
   );
 
   useEffect(() => {

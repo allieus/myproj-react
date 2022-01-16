@@ -16,11 +16,7 @@ function ArticleSummary({ article }) {
       )}
       {!article.photo && <DjangoLogo className="w-full aspect-video" />}
       <div className="p-8 sm:p-9 md:p-7 xl:p-9">
-        <h3>
-          <Link to={`/news/${article.id}/`} className="font-semibold text-dark">
-            {article.title}
-          </Link>
-        </h3>
+        <h3>{article.title}</h3>
       </div>
     </Link>
   );

@@ -1,9 +1,10 @@
 import { useAuthenticatedApiAxios } from 'api/base';
 
-function useFormRequest(resourceUrl, resourcePk) {
+function useFormRequest(resourceUrl, resourcePk, noAuthenticate) {
   const [{ data: object, loading: queryLoading, error: queryError }] =
     useAuthenticatedApiAxios(`${resourceUrl}${resourcePk}/`, {
       manual: !resourcePk,
+      noAuthenticate,
     });
 
   const [
@@ -18,7 +19,7 @@ function useFormRequest(resourceUrl, resourcePk) {
       url: !resourcePk ? resourceUrl : `${resourceUrl}${resourcePk}/`,
       method: !resourcePk ? 'POST' : 'PUT',
     },
-    { manual: true },
+    { manual: true, noAuthenticate },
   );
 
   return {

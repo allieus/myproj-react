@@ -16,7 +16,7 @@ function LoginForm() {
 
   // /accounts/api/token/ 주소에 jwt token 발급 API가 구현되어있습니다. (using djangorestframework-simplejwt)
   const { saveLoading, saveError, saveErrorMessages, saveRequest } =
-    useFormRequest('/accounts/api/token/');
+    useFormRequest('/accounts/api/token/', null, true);
 
   const { fieldValues, handleFieldChange, formData } =
     useFieldValues(INITIAL_FIELD_VALUES);
