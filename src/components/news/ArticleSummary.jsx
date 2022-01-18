@@ -12,6 +12,7 @@ function ArticleSummary({ article }) {
             {article.title}
           </Link>
         </h3>
+        <p>by {article.author.username}</p>
       </div>
     </div>
   );
