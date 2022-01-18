@@ -1,6 +1,13 @@
 import { NavLink } from 'react-router-dom';
+import useAuth from 'hooks/useAuth';
 
 function TopNav() {
+  const [auth, , , logout] = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <div className="my-3">
       <div className="flex place-content-between gap-4">
@@ -10,8 +17,20 @@ function TopNav() {
         <div className="flex">
           <MyLink to="/blog/">블로그</MyLink>
           <MyLink to="/news/">뉴스룸</MyLink>
-          <MyLink to="/accounts/login/">로그인</MyLink>
-          <MyLink to="/accounts/profile/">프로필</MyLink>
+          {!auth.isLoggedIn && (
+            <>
+              <MyLink to="/accounts/login/">로그인</MyLink>
+              <MyLink to="#">회원가입</MyLink>
+            </>
+          )}
+          {auth.isLoggedIn && (
+            <>
+              <MyLink to="/accounts/profile/">프로필</MyLink>
+              <button onClick={handleLogout} className={baseClassName}>
+                로그아웃
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>
