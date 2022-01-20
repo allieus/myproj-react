@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import DebugStates from 'components/DebugStates';
 import ReviewForm from 'components/ReviewForm';
 import useFieldValues from 'hooks/useFieldValues';
-import { useEffect, useState } from 'react/cjs/react.development';
+import { useEffect, useState } from 'react';
 import { axiosInstance } from 'api/base';
 
 function PageReviewForm() {
