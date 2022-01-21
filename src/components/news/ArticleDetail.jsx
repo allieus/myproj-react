@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import LoadingIndicator from 'components/LoadingIndicator';
 import { useApiAxios } from 'api/base';
-import useAuth from 'hooks/useAuth';
+import { useAuth } from 'contexts/AuthContext';
 import { useEffect } from 'react';
 
 function ArticleDetail({ articleId }) {

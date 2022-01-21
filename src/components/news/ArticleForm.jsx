@@ -4,7 +4,7 @@ import H2 from 'components/H2';
 import LoadingIndicator from 'components/LoadingIndicator';
 import produce from 'immer';
 import { useApiAxios } from 'api/base';
-import useAuth from 'hooks/useAuth';
+import { useAuth } from 'contexts/AuthContext';
 import { useEffect } from 'react';
 import useFieldValues from 'hooks/useFieldValues';
 
